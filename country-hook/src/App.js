@@ -20,11 +20,11 @@ const useCountry = (name) => {
 
 
    useEffect(() =>  {
-      const fetchData =  async (next) => {
+      const fetchData =  async () => {
          try {
             const result = await axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
-            const founded = {...result, found: true}
-            setCountry(founded)
+            const finded = { ...result, found: true }
+            setCountry(finded)
          } catch (exception) {
             const notFound = { found: false }
             setCountry(notFound)
@@ -45,7 +45,7 @@ const Country = ({ country }) => {
       console.log(country.status, 3)
       return (
          <div>
-        not found...
+        Not found...
          </div>
       )
    }
@@ -53,9 +53,7 @@ const Country = ({ country }) => {
    else return (
       <div>
          <h3>{country.data[0].name} </h3>
-
          <div>Capital: {country.data[0].capital} </div>
-
          <div>Population: {country.data[0].population}</div>
          <img src={country.data[0].flag} height='100' alt={`flag of ${country.data[0].name}`}/>
       </div>
