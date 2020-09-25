@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import loginService from './services/login'
 import LoginForm from './components/Login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
+import { initBlogs, createBlog } from './reducers/blogReducer'
 
 const App = () => {
 
   const dispatch = useDispatch()
-//const [blog, newBlog] = useState({title:'', author:'', url:''})
+  const blogsRedux = useSelector(state => state.blogs)
+  //const [blog, newBlog] = useState({title:'', author:'', url:''})
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [blogs, setBlogs] = useState([])
@@ -19,10 +21,8 @@ const App = () => {
   const [blogsVisible, setBlogsVisible] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  })
+    dispatch(initBlogs())
+  },[blogsRedux])
 
   useEffect (() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -54,12 +54,9 @@ const App = () => {
   }
 
   const addBlog= (blogObject) => {
-    blogService.create(blogObject).then(blog => {
-      console.log(blog, 'lisätty blogi')
-      setBlogs(blogs.concat(blog))
-      setBlogsVisible(false)
-      dispatch(setNotification(`A new blog: ${blog.title} by ${blog.author} added`, 'gg', 2))
-    })
+    dispatch(createBlog(blogObject))
+    setBlogsVisible(false)
+    dispatch(setNotification(`A new blog: ${blogObject.title} by ${blogObject.author} added`, 'gg', 2))
   }
 
 
@@ -67,8 +64,9 @@ const App = () => {
     const hideWhenVisible = { display: blogsVisible ? 'none' : '' }
     const showWhenVisible = { display: blogsVisible ? '' : 'none' }
 
-    const sortedList = blogs.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
-
+    const sortedList = blogsRedux.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
+    console.log(sortedList, 'lajiteltu')
+    
     return (
       <div>
         <h2>Blogs</h2>
@@ -78,7 +76,7 @@ const App = () => {
             setUser(null)}}> Log out </button>
         </p>
         {sortedList.map(blog => <Blog key={blog.id} blog={blog} users={user} setBlogs={() =>
-          setBlogs} blogs={blogs}/>) }
+          setBlogs} blogs={blogsRedux}/>) }
         <div style={hideWhenVisible}> <button onClick={() =>
           setBlogsVisible(true)}> Create </button>
         </div>

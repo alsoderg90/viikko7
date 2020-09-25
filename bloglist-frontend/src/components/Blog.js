@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, users, setBlogs,blogs }) => {
+const Blog = ({ blog, users, setBlogs }) => {
+
+  const blogs = useSelector(state => state.blogs)
 
   const voteBlog = async (blog) => {
     const newBlog = {
