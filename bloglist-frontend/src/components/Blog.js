@@ -1,31 +1,23 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import blogService from '../services/blogs'
+import { useDispatch, useSelector } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, users, setBlogs }) => {
+const Blog = ({ blog, users }) => {
 
+  const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
 
   const voteBlog = async (blog) => {
-    const newBlog = {
-      title : blog.title,
-      author : blog.author,
-      url : blog.url,
-      likes : blog.likes +1,
-    }
-    const updatedBlog = await blogService.update(blog.id,newBlog)
-    const updatedBlogs = blogs.map(oldBlog => (oldBlog.id === updatedBlog.id) ? updatedBlog : oldBlog)
-    setBlogs(updatedBlogs)
-    console.log('update logi:', newBlog)
+    const newBlog = { ...blog, likes : blog.likes +1 }
+    dispatch(likeBlog(newBlog))
   }
 
   const RemoveBlog = () => {
     if (blog.user.username === users.username) return (
       <button id='remove' onClick={() => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`))
-          blogService.remove(blog.id)
-        setBlogs(blogs.filter(savedblog => savedblog.id !== blog.id))
+          dispatch(removeBlog(blog.id))
       }}> Delete
       </button>
     )

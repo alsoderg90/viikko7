@@ -16,7 +16,6 @@ const App = () => {
   //const [blog, newBlog] = useState({title:'', author:'', url:''})
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [blogsVisible, setBlogsVisible] = useState(false)
 
@@ -65,8 +64,7 @@ const App = () => {
     const showWhenVisible = { display: blogsVisible ? '' : 'none' }
 
     const sortedList = blogsRedux.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
-    console.log(sortedList, 'lajiteltu')
-    
+
     return (
       <div>
         <h2>Blogs</h2>
@@ -75,8 +73,8 @@ const App = () => {
             window.localStorage.clear()
             setUser(null)}}> Log out </button>
         </p>
-        {sortedList.map(blog => <Blog key={blog.id} blog={blog} users={user} setBlogs={() =>
-          setBlogs} blogs={blogsRedux}/>) }
+        {sortedList.map(blog =>
+          <Blog key={blog.id} blog={blog} users={user} blogs={blogsRedux}/>) }
         <div style={hideWhenVisible}> <button onClick={() =>
           setBlogsVisible(true)}> Create </button>
         </div>
