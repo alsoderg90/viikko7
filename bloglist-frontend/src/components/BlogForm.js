@@ -7,9 +7,9 @@ import Blog from './Blog'
 const BlogForm = ({ user, setUser }) => {
 
   const [title, setTitle] = useState('')
+  const [blogsVisible, setBlogsVisible] = useState()
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [blogsVisible, setBlogsVisible] = useState(false)
   const dispatch = useDispatch()
   const blogsRedux = useSelector(state => state.blogs)
 
@@ -34,6 +34,7 @@ const BlogForm = ({ user, setUser }) => {
   const sortedList = blogsRedux.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
 
   return (
+
     <div>
       <h2>Blogs</h2>
       <p>
@@ -47,15 +48,15 @@ const BlogForm = ({ user, setUser }) => {
         setBlogsVisible(true)}> Create </button>
       </div>
       <div style={showWhenVisible}>
+        <h2>Create new</h2>
+        <form onSubmit={newBlog}>
+          <div> Title: <input id='title' type="text" value={title} name="title" onChange={({ target }) => {setTitle(target.value)}}/></div>
+          <div> Author: <input id='author' type="text" value={author} name="author" onChange={({ target }) => {setAuthor(target.value)}}/></div>
+          <div> Url: <input id='url' type="text" value={url} name="url" onChange={({ target }) => {setUrl(target.value)}}/></div>
+          <button id='create' type="submit">Create</button>
+        </form>
+        <button onClick={() => setBlogsVisible(false)}> Cancel </button>
       </div>
-      <h2>Create new</h2>
-      <form onSubmit={newBlog}>
-        <div> Title: <input id='title' type="text" value={title} name="title" onChange={({ target }) => {setTitle(target.value)}}/></div>
-        <div> Author: <input id='author' type="text" value={author} name="author" onChange={({ target }) => {setAuthor(target.value)}}/></div>
-        <div> Url: <input id='url' type="text" value={url} name="url" onChange={({ target }) => {setUrl(target.value)}}/></div>
-        <button id='create' type="submit">Create</button>
-      </form>
-      <button onClick={() => setBlogsVisible(false)}> Cancel </button>
     </div>
   )
 }

@@ -9,6 +9,8 @@ import Login from './components/Login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
+import User from './components/User'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 
 const App = () => {
@@ -16,7 +18,6 @@ const App = () => {
   //const [blog, newBlog] = useState({title:'', author:'', url:''})
 
   const dispatch = useDispatch()
-  const [page, setPage] = useState('home')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
@@ -64,16 +65,25 @@ const App = () => {
     }
   }
 
-  const  toPage = (page) => (event) => {
-    event.preventDefault()
-    setPage(page)
+  const style = {
+    padding: 5
   }
 
-  const content = () => {
+  return (
+    <Router>
+      <div>
+        <Link style={style} to="/">Blogs</Link>
+        <Link style={style} to="/users">Users</Link>
+      </div>
 
-    if (page === 'home') {
-      return (
-        <div>
+      <Switch>
+        <Route path='/users/:id'>
+          <User users={users}/>
+        </Route>
+        <Route path="/users">
+          <Users users={users}/>
+        </Route>
+        <Route path="/">
           <Notification />
           {user === null ? <Login username={username}
             password={password} setPassword={({ target }) =>
@@ -81,32 +91,10 @@ const App = () => {
             {setUsername(target.value)}} handleLogin={(event) =>
             {handleLogin(event)}} /> :
             <BlogForm user={user} setUser={setUser}/>}
-        </div>
-      )
-    } else if (page === 'users') {
-      return <Users users={users} />
-    }
-  }
-
-  const style = {
-    padding: 5
-  }
-
-  return (
-    <div>
-      <div>
-        <a href="/#" onClick={toPage('home')} style={style}>
-          Blogs
-        </a>
-        <a href="/#" onClick={toPage('users')} style={style}>
-          Users
-        </a>
-      </div>
-
-      {content()}
-    </div>
+        </Route>
+      </Switch>
+    </Router>
   )
-
 }
 
 export default App

@@ -6,8 +6,8 @@ import loginReducer from './reducers/loginReducer'
 
 
 const reducer = combineReducers({
-  login: loginReducer,
   notification: notificationReducer,
+  login: loginReducer,
   blogs: blogReducer,
 
 })
