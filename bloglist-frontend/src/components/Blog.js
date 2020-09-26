@@ -14,14 +14,13 @@ const Blog = ({ blog, users }) => {
   }
 
   const RemoveBlog = () => {
-    if (blog.user.username === users.username) return (
+    return (
       <button id='remove' onClick={() => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`))
           dispatch(removeBlog(blog.id))
       }}> Delete
       </button>
     )
-    else return <p>moi</p>
   }
 
   const [allInfo, showAll] = useState(false)
@@ -62,7 +61,6 @@ const Blog = ({ blog, users }) => {
           {/*eslint-disable-next-line no-unused-vars */}
           <p> Likes {blog.likes} <button id='like' onClick={handleVote}> Vote</button> </p>
           <p> {blog.url}</p>
-          <p> {blog.user.name}</p>
           {RemoveBlog()}
         </div>
         </div>

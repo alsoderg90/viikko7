@@ -1,16 +1,15 @@
 import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action) => {
-  console.log(state, 'tila')
   switch(action.type) {
   case('INIT'):
     return state = action.blogs
   case('CREATE'):
     return state.concat(action.data)
   case('LIKE'):
-    return state.map(blog => blog.id === action.data.id ? action.data : blog )
+    return state = state.map(blog => blog.id === action.data.id ? action.data : blog )
   case('DELETE'):
-    return state.filter(state => state.id !== action.id)
+    return state = state.filter(state => state.id !== action.id)
   default: return state
   }
 }

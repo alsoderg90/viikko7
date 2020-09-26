@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
+import { initBlogs } from './reducers/blogReducer'
 import loginService from './services/login'
-import LoginForm from './components/Login'
+import userService from './services/users'
+import Login from './components/Login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
-import { initBlogs, createBlog } from './reducers/blogReducer'
+import Users from './components/Users'
+
 
 const App = () => {
 
-  const dispatch = useDispatch()
-  const blogsRedux = useSelector(state => state.blogs)
   //const [blog, newBlog] = useState({title:'', author:'', url:''})
+
+  const dispatch = useDispatch()
+  const [page, setPage] = useState('home')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
-  const [blogsVisible, setBlogsVisible] = useState(false)
+  const [users, setUsers] = useState(null)
 
   useEffect(() => {
     dispatch(initBlogs())
-  },[blogsRedux])
+  },[dispatch])
 
   useEffect (() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -30,6 +33,15 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
+  },[])
+
+  useEffect(() => {
+    const fetchData = async  () => {
+      const response = await userService.getAll()
+      console.log(response.data)
+      setUsers(response.data)
+    }
+    fetchData()
   },[])
 
 
@@ -52,54 +64,49 @@ const App = () => {
     }
   }
 
-  const addBlog= (blogObject) => {
-    dispatch(createBlog(blogObject))
-    setBlogsVisible(false)
-    dispatch(setNotification(`A new blog: ${blogObject.title} by ${blogObject.author} added`, 'gg', 2))
+  const  toPage = (page) => (event) => {
+    event.preventDefault()
+    setPage(page)
   }
 
+  const content = () => {
 
-  const blogForm = () => {
-    const hideWhenVisible = { display: blogsVisible ? 'none' : '' }
-    const showWhenVisible = { display: blogsVisible ? '' : 'none' }
-
-    const sortedList = blogsRedux.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
-
-    return (
-      <div>
-        <h2>Blogs</h2>
-        <p>
-          {user.name} logged in <button onClick = {() => {
-            window.localStorage.clear()
-            setUser(null)}}> Log out </button>
-        </p>
-        {sortedList.map(blog =>
-          <Blog key={blog.id} blog={blog} users={user} blogs={blogsRedux}/>) }
-        <div style={hideWhenVisible}> <button onClick={() =>
-          setBlogsVisible(true)}> Create </button>
+    if (page === 'home') {
+      return (
+        <div>
+          <Notification />
+          {user === null ? <Login username={username}
+            password={password} setPassword={({ target }) =>
+            {setPassword(target.value)}} setUsername={({ target }) =>
+            {setUsername(target.value)}} handleLogin={(event) =>
+            {handleLogin(event)}} /> :
+            <BlogForm user={user} setUser={setUser}/>}
         </div>
-        <div style={showWhenVisible}>
-          <BlogForm
-            addBlog={addBlog}
-            setBlogsVisible={setBlogsVisible}
-            user={user}/>
-        </div>
-      </div>
-    )
+      )
+    } else if (page === 'users') {
+      return <Users users={users} />
+    }
+  }
+
+  const style = {
+    padding: 5
   }
 
   return (
-
     <div>
-      <Notification />
-      {user === null ? <LoginForm username={username}
-        password={password} setPassword={({ target }) =>
-        {setPassword(target.value)}} setUsername={({ target }) =>
-        {setUsername(target.value)}} handleLogin={(event) =>
-        {handleLogin(event)}} /> :
-        blogForm()}
+      <div>
+        <a href="/#" onClick={toPage('home')} style={style}>
+          Blogs
+        </a>
+        <a href="/#" onClick={toPage('users')} style={style}>
+          Users
+        </a>
+      </div>
+
+      {content()}
     </div>
   )
+
 }
 
 export default App
