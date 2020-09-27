@@ -8,6 +8,11 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const get = (id) => {
+  const response = axios.get(baseUrl`/${id}`)
+  return response.data
+}
+
 const setToken = newToken => {
   token = `bearer ${newToken}`
 }

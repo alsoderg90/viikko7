@@ -1,4 +1,4 @@
-/*
+
 const loginReducer = (state = null, action) => {
   console.log('tila:', state, 'action', action)
   switch(action.type) {
@@ -18,4 +18,4 @@ export const login = (user) => {
 }
 
 
-export default loginReducer */
+export default loginReducer

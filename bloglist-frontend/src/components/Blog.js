@@ -1,12 +1,14 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { useParams } from 'react-router-dom'
 
-const Blog = ({ blog, users }) => {
+const Blog = () => {
 
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
+  const id = useParams().id
+  const blog = blogs.find(blog => blog.id === id)
 
   const voteBlog = async (blog) => {
     const newBlog = { ...blog, likes : blog.likes +1 }
@@ -33,32 +35,16 @@ const Blog = ({ blog, users }) => {
     marginBottom: 5
   }
 
-  const handleShow = () => {
-    showAll(!allInfo)
-  }
-
   const handleVote = () => {
     voteBlog(blog)
   }
 
-  if (allInfo === false)
-    return (
-      <li className='blog'>
-        <div style={blogStyle}><div>
-          {blog.title} by {blog.author}
-          <button id='view' onClick={handleShow}>View</button>
-        </div>
-        </div>
-      </li>
-    )
-
-  else {
+  if (blog !== undefined) {
     return (
       <li className='all'>
         <div style={blogStyle}><div>
-          <p>{blog.title} <button onClick={handleShow}> Hide </button></p>
+          <p>{blog.title}</p>
           <p> {blog.author} </p>
-          {/*eslint-disable-next-line no-unused-vars */}
           <p> Likes {blog.likes} <button id='like' onClick={handleVote}> Vote</button> </p>
           <p> {blog.url}</p>
           {RemoveBlog()}
@@ -67,6 +53,8 @@ const Blog = ({ blog, users }) => {
       </li>
     )
   }
+  else return null
+
 }
 
 export default Blog

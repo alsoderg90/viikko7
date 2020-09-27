@@ -10,6 +10,7 @@ import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
 import User from './components/User'
+import Blog from './components/Blog'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 
@@ -69,16 +70,30 @@ const App = () => {
     padding: 5
   }
 
+  const navi = {
+    backgroundColor: 'lightgray',
+    textColor: 'green'
+  }
+
   return (
     <Router>
-      <div>
+      <div style={navi}>
         <Link style={style} to="/">Blogs</Link>
         <Link style={style} to="/users">Users</Link>
+        {user ? <em>{user.name} logged in
+          <button onClick = {() => {
+            window.localStorage.clear()
+            setUser(null)}}> Log out </button>
+        </em>
+          : null }
       </div>
 
       <Switch>
         <Route path='/users/:id'>
           <User users={users}/>
+        </Route>
+        <Route path='/blogs/:id'>
+          <Blog></Blog>
         </Route>
         <Route path="/users">
           <Users users={users}/>

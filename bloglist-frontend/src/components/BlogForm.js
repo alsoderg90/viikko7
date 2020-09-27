@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createBlog } from '../reducers/blogReducer'
+import { createBlog, likeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 const BlogForm = ({ user, setUser }) => {
 
@@ -32,18 +32,14 @@ const BlogForm = ({ user, setUser }) => {
   const showWhenVisible = { display: blogsVisible ? '' : 'none' }
 
   const sortedList = blogsRedux.sort((a,b) => (a.likes < b.likes) ? 1 : -1)
+  console.log(sortedList)
 
   return (
 
     <div>
       <h2>Blogs</h2>
-      <p>
-        {user.name} logged in <button onClick = {() => {
-          window.localStorage.clear()
-          setUser(null)}}> Log out </button>
-      </p>
-      {sortedList.map(blog =>
-        <Blog key={blog.id} blog={blog} users={user} blogs={blogsRedux}/>) }
+      {sortedList.map((blog,i) =>
+        <div key={i}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></div> )}
       <div style={hideWhenVisible}> <button onClick={() =>
         setBlogsVisible(true)}> Create </button>
       </div>
