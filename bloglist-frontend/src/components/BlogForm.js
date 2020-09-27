@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createBlog, likeBlog } from '../reducers/blogReducer'
+import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { Link } from 'react-router-dom'
+import { Button, Input } from './StyledComponents'
 
 const BlogForm = ({ user, setUser }) => {
 
@@ -40,16 +41,16 @@ const BlogForm = ({ user, setUser }) => {
       <h2>Blogs</h2>
       {sortedList.map((blog,i) =>
         <div key={i}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></div> )}
-      <div style={hideWhenVisible}> <button onClick={() =>
-        setBlogsVisible(true)}> Create </button>
+      <div style={hideWhenVisible}> <Button onClick={() =>
+        setBlogsVisible(true)}> Create </Button>
       </div>
       <div style={showWhenVisible}>
         <h2>Create new</h2>
         <form onSubmit={newBlog}>
-          <div> Title: <input id='title' type="text" value={title} name="title" onChange={({ target }) => {setTitle(target.value)}}/></div>
-          <div> Author: <input id='author' type="text" value={author} name="author" onChange={({ target }) => {setAuthor(target.value)}}/></div>
-          <div> Url: <input id='url' type="text" value={url} name="url" onChange={({ target }) => {setUrl(target.value)}}/></div>
-          <button id='create' type="submit">Create</button>
+          <div> Title: <Input id='title' type="text" value={title} name="title" onChange={({ target }) => {setTitle(target.value)}}/></div>
+          <div> Author: <Input id='author' type="text" value={author} name="author" onChange={({ target }) => {setAuthor(target.value)}}/></div>
+          <div> Url: <Input id='url' type="text" value={url} name="url" onChange={({ target }) => {setUrl(target.value)}}/></div>
+          <Button id='create' type="submit">Create</Button>
         </form>
         <button onClick={() => setBlogsVisible(false)}> Cancel </button>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button, Input } from './StyledComponents'
 
 const LoginForm = ({
   setUsername,
@@ -14,7 +15,7 @@ const LoginForm = ({
       <form onSubmit={handleLogin}>
         <h2>Log in to application</h2>
         <div> Username
-          <input
+          <Input
             id='username'
             type ="username"
             value={username}
@@ -23,7 +24,7 @@ const LoginForm = ({
           />
         </div>
         <div> Password
-          <input
+          <Input
             id='password'
             type = "password"
             value = {password}
@@ -31,7 +32,7 @@ const LoginForm = ({
             onChange = {setPassword}
           />
         </div>
-        <button id='login-button' type="submit">Login</button>
+        <Button id='login-button' type="submit" primary=''>Login</Button>
       </form>
     </div>
   )

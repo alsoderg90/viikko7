@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useParams } from 'react-router-dom'
+import { Button } from './StyledComponents'
 
 const Blog = () => {
 
@@ -17,15 +18,13 @@ const Blog = () => {
 
   const RemoveBlog = () => {
     return (
-      <button id='remove' onClick={() => {
+      <Button id='remove' onClick={() => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`))
           dispatch(removeBlog(blog.id))
       }}> Delete
-      </button>
+      </Button>
     )
   }
-
-  const [allInfo, showAll] = useState(false)
 
   const blogStyle = {
     paddingTop: 5,
@@ -45,8 +44,9 @@ const Blog = () => {
         <div style={blogStyle}><div>
           <p>{blog.title}</p>
           <p> {blog.author} </p>
-          <p> Likes {blog.likes} <button id='like' onClick={handleVote}> Vote</button> </p>
+          <p> Likes {blog.likes} <Button id='like' onClick={handleVote}> Vote</Button> </p>
           <p> {blog.url}</p>
+          <p> Added by {blog.user.name}</p>
           {RemoveBlog()}
         </div>
         </div>
