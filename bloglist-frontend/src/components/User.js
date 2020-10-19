@@ -10,10 +10,10 @@ const User = ( users) => {
     const user = users.users.find(user => user.id === id)
     return (
       <Table>
-        <h1>
+        <h2>
           {user.name}
-        </h1>
-        <b>Added Blogs</b>
+        </h2>
+        <p><b>Added Blogs</b></p>
         <ul>
           {user.blogs.map(blog => <li key={blog.id}>  {blog.title}</li>)}
         </ul>

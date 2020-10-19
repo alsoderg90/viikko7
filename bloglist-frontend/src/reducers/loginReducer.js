@@ -1,6 +1,6 @@
 
 const loginReducer = (state = null, action) => {
-  console.log('tila:', state, 'action', action)
+  //console.log('tila:', state, 'action', action)
   switch(action.type) {
   case 'LOGIN':
     return state = action.data

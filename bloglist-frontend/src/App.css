@@ -7,6 +7,30 @@
   pointer-events: none;
 }
 
+a {
+  font-family: Calisto MT;
+  font-style: oblique;
+  font-size: 25px;
+}
+
+h2 {
+  font-family: Brush Script MT;
+  font-size: 42px;
+  color: blue;
+  margin: 5px;
+}
+
+td, p, ul {
+  font-size: 22px;
+  color:#1e87ad;
+  margin: 5px;
+}
+
+p {
+  font-family: 'Droid serif', serif; 
+  font-size: 20px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -39,7 +63,7 @@
 
 .error {
   color: red;
-  background:whitesmoke;
+  background:#d2f3f7;
   font-size: 30px;
   border-style: groove;
   border-radius: 15px;
@@ -47,7 +71,7 @@
 }
 .gg {
   color: green;
-  background: whitesmoke;
+  background:#d2f3f7;
   font-size: 30px;
   border-style: groove;
   border-radius: 15px;

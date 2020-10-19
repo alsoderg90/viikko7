@@ -11,8 +11,8 @@ const Users = (users) => {
         <Table align="left">
           <tbody>
             <Tr>
-              <Td></Td>
-              <Td><b>Blogs created</b></Td>
+              <td></td>
+              <td><b>Blogs created</b></td>
             </Tr>
             {users.users.map((user,i) =>
               <Tr key={i}><td> <Link to={`/users/${user.id}`}>

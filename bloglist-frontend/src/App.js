@@ -68,7 +68,7 @@ const App = () => {
   }
 
   const style = {
-    padding: 5
+    padding: 5,
   }
 
   return (

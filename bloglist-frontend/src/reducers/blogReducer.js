@@ -1,23 +1,25 @@
 import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action) => {
+  //console.log(state, 'tila', action, 'action')
   switch(action.type) {
   case('INIT'):
-    return state = action.blogs
+    return action.blogs
   case('CREATE'):
     return state.concat(action.data)
   case('LIKE'):
-    return state = state.map(blog => blog.id === action.data.id ? action.data : blog )
+    return state.map(blog => blog.id === action.data.id ? action.data : blog )
   case('DELETE'):
-    return state = state.filter(state => state.id !== action.id)
+    return state.filter(state => state.id !== action.id)
   default: return state
   }
 }
 
 export const removeBlog = (id) => {
-  console.log('poista')
+  //console.log('poista')
   return async dispatch => {
-    await blogService.remove(id)
+    const response = await blogService.remove(id)
+    console.log(response)
     dispatch({
       type: 'DELETE',
       data: id
@@ -26,12 +28,12 @@ export const removeBlog = (id) => {
 }
 
 export const likeBlog = (blog) => {
-  console.log('like')
   return async dispatch => {
-    const updatedBlog = await blogService.update(blog.id, blog)
+    await blogService.update(blog.id, blog)
+    //console.log(blog)
     dispatch({
       type:'LIKE',
-      data: updatedBlog
+      data: blog
     })
   }
 }
@@ -49,6 +51,7 @@ export const initBlogs = () => {
 export const createBlog = (blogObject) => {
   return async dispatch => {
     const newBlog = await blogService.create(blogObject)
+    console.log(blogObject, newBlog)
     dispatch({
       type: 'CREATE',
       data: newBlog
