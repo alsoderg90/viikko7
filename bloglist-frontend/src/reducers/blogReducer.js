@@ -1,7 +1,7 @@
 import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action) => {
-  //console.log(state, 'tila', action, 'action')
+  console.log(state, 'tila', action, 'action')
   switch(action.type) {
   case('INIT'):
     return action.blogs
@@ -10,16 +10,18 @@ const blogReducer = (state = [], action) => {
   case('LIKE'):
     return state.map(blog => blog.id === action.data.id ? action.data : blog )
   case('DELETE'):
-    return state.filter(state => state.id !== action.id)
+    console.log(state,'1')
+    state = state.filter(blog => blog.id !== action.data)
+    console.log(state,'2')
+    return state
   default: return state
   }
 }
 
 export const removeBlog = (id) => {
-  //console.log('poista')
+  console.log('poista', id)
   return async dispatch => {
-    const response = await blogService.remove(id)
-    console.log(response)
+    await blogService.remove(id)
     dispatch({
       type: 'DELETE',
       data: id

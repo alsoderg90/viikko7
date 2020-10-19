@@ -5,7 +5,7 @@ import { setNotification } from '../reducers/notificationReducer'
 import { Link } from 'react-router-dom'
 import { Button, Input } from './StyledComponents'
 
-const BlogForm = () => {
+const BlogForm = (user, users, setUser) => {
 
   const [title, setTitle] = useState('')
   const [blogsVisible, setBlogsVisible] = useState()
@@ -26,6 +26,10 @@ const BlogForm = () => {
 
   const addBlog= (blogObject) => {
     dispatch(createBlog(blogObject))
+    console.log(user.user.username,':')
+    console.log(users,';')
+    //const a = users.find(u => u.username === user.username)
+    //setUser(users)
     setBlogsVisible(false)
     dispatch(setNotification(`A new blog: ${blogObject.title} by ${blogObject.author} added`, 'gg', 2))
   }
@@ -76,9 +80,8 @@ const BlogForm = () => {
             </tbody>
           </table>
           <Button id='create' type="submit">Create</Button>
-          <Button onClick={() => setBlogsVisible(false)}> Cancel </Button>
         </form>
-
+        <Button onClick={() => setBlogsVisible(false)}> Cancel </Button>
       </div>
     </div>
   )

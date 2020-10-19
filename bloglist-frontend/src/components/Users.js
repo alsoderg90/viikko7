@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Tr, Td, Table } from './StyledComponents'
+import { Tr, Table } from './StyledComponents'
 
 const Users = (users) => {
 

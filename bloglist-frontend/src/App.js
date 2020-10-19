@@ -93,7 +93,7 @@ const App = () => {
           <Blog></Blog>
         </Route>
         <Route path="/users">
-          <Users users={users}/>
+          <Users users={users} user={user}/>
         </Route>
         <Route path="/">
           <Notification />
@@ -102,7 +102,7 @@ const App = () => {
             {setPassword(target.value)}} setUsername={({ target }) =>
             {setUsername(target.value)}} handleLogin={(event) =>
             {handleLogin(event)}} /> :
-            <BlogForm user={user} setUser={setUser}/>}
+            <BlogForm user={user} users={users} setUsers={setUsers}/>}
         </Route>
       </Switch>
     </Router>

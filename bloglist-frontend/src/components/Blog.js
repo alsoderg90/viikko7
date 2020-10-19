@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { likeBlog, removeBlog, initBlogs } from '../reducers/blogReducer'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useParams } from 'react-router-dom'
 import { Button, ButtonLO } from './StyledComponents'
 import { Redirect } from 'react-router-dom'
@@ -12,8 +12,6 @@ const Blog = () => {
   const blogs = useSelector(state => state.blogs)
   const id = useParams().id
   const blog = blogs.find(blog => blog.id === id)
-  dispatch(initBlogs)
-
 
   const voteBlog = async (blog) => {
     const newBlog = { ...blog, likes : blog.likes +1 }
@@ -25,13 +23,10 @@ const Blog = () => {
     return (
       <Button id='remove' onClick={() => {
         if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`))
-        dispatch(initBlogs())
           dispatch(removeBlog(blog.id))
         setRedirect(true)
-        dispatch(initBlogs())
       }}> Delete
       </Button>
-
     )
   }
 
@@ -56,7 +51,6 @@ const Blog = () => {
         <p> {blog.author} </p>
         <p> Likes {blog.likes} <ButtonLO id='like' onClick={handleVote}> Vote</ButtonLO> </p>
         <p> {blog.url}</p>
-        <p> Added by {blog.user.name}</p>
         {RemoveBlog()}
       </div>
       </div>
@@ -64,7 +58,6 @@ const Blog = () => {
   }
 
   else return null
-
 }
 
 export default Blog
